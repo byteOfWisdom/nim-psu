@@ -27,6 +27,15 @@ int parse(uint read_size) {
         return 0; // no error but also don't do anything
     }
 
+    if (state::read_buffer[0] == state::request_char) {
+        for (uint i = 0; i < state::channel_count; ++i) {
+            state::serial.print(state::channel_state[i]);
+            state::serial.print(' ');
+        }
+        state::serial.print('\n');
+        return 0;
+    }
+
     if (state::read_buffer[0] == state::enable_char) {
         cmd_c = atoi(state::read_buffer + 1);
         if (cmd_c < 0 || cmd_c >= state::channel_count) {

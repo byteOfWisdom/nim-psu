@@ -9,6 +9,7 @@ channel_count = 16
 enable_char = "e"
 disble_char = "d"
 hold_char = "h"
+request_char = "q"
 timeout_delay = 1.0
 
 
@@ -16,6 +17,11 @@ class thread_safe_serial:
     def __init__(self, device: str, baudrate: int, timeout: int = 0):
         self.lock = threading.Lock()
         self.serial_port = serial.Serial(device, baudrate, timeout=timeout)
+
+
+    def readline(self):
+        with self.lock:
+            return self.serial_port.readline().decode('utf-8')
 
 
     def write(self, bytes: bytes):
@@ -60,6 +66,10 @@ def safe_int(s: str, default: int) -> int:
 def parse_input(line: str) -> [(int, bool)]:
     chunks = line.split()
     res = []
+    if chunks[0] == "read":
+        serial_con.write("q\n".encode('utf-8'))
+        print(serial_con.readline())
+
     if chunks[0] == "enable" or chunks[0] == "e":
         return [(safe_int(pin, channel_count + 1), True) for pin in chunks[1:]]
 
