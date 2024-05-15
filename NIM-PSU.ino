@@ -27,13 +27,13 @@ int parse(uint read_size) {
 
     if (state::read_buffer[0] == state::enable_char) {
         int valid = sscanf(state::read_buffer, "e %d", cmd_c);
-        state::channel_state[cmd_c[i]] = true;
+        state::channel_state[cmd_c] = true;
         return 0;
     }
 
     if (state::read_buffer[0] == state::disable_char) {
         int valid = sscanf(state::read_buffer, "d %d", cmd_c);
-        state::channel_state[cmd_c[i]] = true;
+        state::channel_state[cmd_c] = true;
         return 0;
     }
 

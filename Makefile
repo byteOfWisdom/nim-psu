@@ -2,4 +2,4 @@ BOARD = arduino:avr:nano
 CPPFLAGS = 
 
 all:
-	arduino-cli compile -b $(BOARD) NIM-PSU.ino --build-property '$(CPPFLAGS)'
+	arduino-cli compile -b $(BOARD) nim-psu.ino --build-property '$(CPPFLAGS)'

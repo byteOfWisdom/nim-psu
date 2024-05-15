@@ -49,7 +49,7 @@ namespace state{
         false,
     };
 
-    const uint timeout_delay = 1000; // wait time before timing out and resetting in ms
+    const uint timeout_delay = 1500; // wait time before timing out and resetting in ms
     const char terminator = '\n'; // just use a null terminator as default i guess??
     const char enable_char = 'e';
     const char disable_char = 'd';
