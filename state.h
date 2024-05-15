@@ -42,11 +42,11 @@ namespace state{
         false,
         false,
         false,
+        true,
+        true,
         false,
-        false,
-        false,
-        false,
-        false,
+        true,
+        false
     };
 
     const uint timeout_delay = 1500; // wait time before timing out and resetting in ms

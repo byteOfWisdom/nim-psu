@@ -3,7 +3,7 @@
 // go to the default state if no input or ping is received
 void dead_state() {
     for (uint c = 0; c < state::channel_count; ++c) {
-        digitalWrite(state::channels[c], state::default_state? HIGH: LOW);
+        digitalWrite(state::channels[c], state::default_state[c]);
     }    
 }
 
@@ -11,8 +11,10 @@ void dead_state() {
 void output_pin_state() {
     // writes the current pin states to the ouputs
     for (uint c = 0; c < state::channel_count; ++c) {
-        digitalWrite(state::channels[c], state::channel_state? HIGH: LOW);
-    }    
+        digitalWrite(state::channels[c], state::channel_state[c]);
+    }
+
+    state::changes_occured = false;
 }
 
 
@@ -26,15 +28,21 @@ int parse(uint read_size) {
     }
 
     if (state::read_buffer[0] == state::enable_char) {
-        int valid = sscanf(state::read_buffer, "e %d", cmd_c);
+        cmd_c = atoi(state::read_buffer + 1);
+        if (cmd_c < 0 || cmd_c >= state::channel_count) {
+            return 1;
+        }
         state::channel_state[cmd_c] = true;
         state::changes_occured = true;
         return 0;
     }
 
     if (state::read_buffer[0] == state::disable_char) {
-        int valid = sscanf(state::read_buffer, "d %d", cmd_c);
-        state::channel_state[cmd_c] = true;
+        cmd_c = atoi(state::read_buffer + 1);
+        if (cmd_c < 0 || cmd_c >= state::channel_count) {
+            return 1;
+        }
+        state::channel_state[cmd_c] = false;
         state::changes_occured = true;
         return 0;
     }
@@ -53,12 +61,13 @@ void setup() {
     // initialiize pins
     for (uint c = 0; c < state::channel_count; ++c) {
         pinMode(state::channels[c], OUTPUT);
+        state::channel_state[c] = state::default_state[c];
     }
     dead_state();
 
     // initialize serial connection
-    state::serial.begin(BAUDRATE);
     state::serial.setTimeout(state::timeout_delay);
+    state::serial.begin(BAUDRATE);
 }
 
 
