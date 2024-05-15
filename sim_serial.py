@@ -11,3 +11,6 @@ class Serial:
     def write(self, message):
         print("serial writing: ")
         print(message.decode('utf-8'))
+
+    def readline(self):
+        return "hello world\n".encode('utf-8')

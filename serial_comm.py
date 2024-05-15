@@ -69,6 +69,7 @@ def parse_input(line: str) -> [(int, bool)]:
     if chunks[0] == "read":
         serial_con.write("q\n".encode('utf-8'))
         print(serial_con.readline())
+        return []
 
     if chunks[0] == "enable" or chunks[0] == "e":
         return [(safe_int(pin, channel_count + 1), True) for pin in chunks[1:]]
@@ -76,9 +77,11 @@ def parse_input(line: str) -> [(int, bool)]:
     elif chunks[0] == "disable" or chunks[0] == "d":
         return [(safe_int(pin, channel_count + 1), False) for pin in chunks[1:]]
 
-    return []
     # legacy input form:
-
+    if safe_int(chunks[0], -1) >= 0 and safe_int(chunks[1], -1) >= 0:
+        c = safe_int(chunks[0], channel_count + 1)
+        s = safe_int(chunks[1], 0)
+        return [(c, s)]
 
 
 def main():
