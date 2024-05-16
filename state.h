@@ -60,7 +60,12 @@ namespace state{
     char read_buffer[buff_len];
     bool changes_occured = false;
 
+
+    #ifdef LEGACY // flag to use the old pins
     SoftwareSerial serial(2, 3);
+    #else
+    SoftwareSerial serial(0, 1);
+    #endif
 }
 
 #endif
