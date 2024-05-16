@@ -12,6 +12,6 @@ subprocess.run(['arduino-cli', 'compile', 'nim-psu.ino', '-b', 'arduino:avr:nano
 
 # send the reset command to the arduino, so it resets
 # after 500ms,
-serial.write('R 500\n'.encode('utf-8'))
+serial_con.write('R 500\n'.encode('utf-8'))
 
 subprocess.run(['arduino-cli', 'upload', './build/', '-b', 'arduino:avr:nano', '-p', '/dev/ttyS0'])
