@@ -18,6 +18,6 @@ reset_thread = threading.Thread(target=reset_arduino)
 reset_thread.start()
 # first compile the arduino sketch, so that upload has a more predictable
 # runtime
-subprocess.run(['arduino-cli', 'compile', 'nim-psu.ino', '-b', 'arduino:avr:nano', '-u', '-p', '/dev/ttyS03'])
+subprocess.run(['arduino-cli', 'compile', 'nim-psu.ino', '-b', 'arduino:avr:nano', '-u', '-p', '/dev/ttyS0'])
 
-reset_thread.join()
+reset_thread.stop()
