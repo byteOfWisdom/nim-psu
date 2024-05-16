@@ -55,6 +55,7 @@ namespace state{
     const char disable_char = 'd';
     const char hold_char = 'h';
     const char request_char = 'q';
+    const char reset_char = 'R';
 
     bool channel_state[channel_count]; // holds the current state of the pins
     char read_buffer[buff_len];

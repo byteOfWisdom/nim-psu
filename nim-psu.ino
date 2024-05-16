@@ -1,5 +1,16 @@
 #include "state.h"
 
+// function pointer pointing to zero
+// thus jumping to the beginning of the bootloader
+void (*reset) (void) = 0;
+
+
+void reset_in(int ms) {
+    delay(ms);
+    reset();
+}
+
+
 // go to the default state if no input or ping is received
 void dead_state() {
     for (uint c = 0; c < state::channel_count; ++c) {
@@ -54,6 +65,11 @@ int parse(uint read_size) {
         state::channel_state[cmd_c] = false;
         state::changes_occured = true;
         return 0;
+    }
+
+    if(state::read_buffer[0] == state::reset_char) {
+        cmd_c = atoi(state::read_buffer + 1);
+        reset_in(cmd_c);
     }
 
     return 1; // did evidently not parse succesfully
