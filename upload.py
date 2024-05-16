@@ -7,8 +7,10 @@ import time
 
 serial_con = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
+runing = True
+
 def reset_arduino():
-    while True:
+    while running:
         # send the reset command to the arduino, so it resets
         serial_con.write('R 10\n'.encode('utf-8'))
         time.sleep(0.5)
@@ -20,4 +22,4 @@ reset_thread.start()
 # runtime
 subprocess.run(['arduino-cli', 'compile', 'nim-psu.ino', '-b', 'arduino:avr:nano', '-u', '-p', '/dev/ttyS0'])
 
-reset_thread.stop()
+running = False
