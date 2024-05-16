@@ -13,7 +13,7 @@ def reset_arduino():
     while running:
         # send the reset command to the arduino, so it resets
         serial_con.write('R 10\n'.encode('utf-8'))
-        time.sleep(0.5)
+        time.sleep(3)
 
 
 reset_thread = threading.Thread(target=reset_arduino)
