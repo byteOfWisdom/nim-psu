@@ -7,7 +7,7 @@ import time
 
 serial_con = serial.Serial('/dev/ttyS0', 9600, timeout=1)
 
-runing = True
+running = True
 
 def reset_arduino():
     while running:
