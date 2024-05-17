@@ -6,6 +6,7 @@ void (*reset) (void) = 0;
 
 
 void reset_in(int ms) {
+    state::serial.println("called reset");
     delay(ms);
     reset();
 }
