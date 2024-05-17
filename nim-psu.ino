@@ -1,7 +1,5 @@
 #include "state.h"
 
-#include <avr/wdt.h>
-
 // function pointer pointing to zero
 // thus jumping to the beginning of the bootloader
 void (*reset) (void) = 0;
@@ -9,7 +7,8 @@ void (*reset) (void) = 0;
 
 void reset_in(int ms) {
     state::serial.println("called reset");
-    wdt_enable(WDTO_15MS);
+    delay(ms);
+    reset();
 }
 
 
@@ -85,7 +84,6 @@ void clear_read_buffer() {
 
 
 void setup() {
-    wdt_disable();
     // initialiize pins
     for (uint c = 0; c < state::channel_count; ++c) {
         pinMode(state::channels[c], OUTPUT);
@@ -96,7 +94,6 @@ void setup() {
     // initialize serial connection
     state::serial.setTimeout(state::timeout_delay);
     state::serial.begin(BAUDRATE);
-	state::serial.println("did a reset");
 }
 
 
