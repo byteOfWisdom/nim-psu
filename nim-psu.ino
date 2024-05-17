@@ -93,6 +93,7 @@ void setup() {
     // initialize serial connection
     state::serial.setTimeout(state::timeout_delay);
     state::serial.begin(BAUDRATE);
+	state::serial.println("did a reset");
 }
 
 
